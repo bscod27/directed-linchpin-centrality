@@ -1,4 +1,4 @@
-linchpin_centrality <- function(g, id = 'name', attr = 'spec', type1 = NULL, type2 = NULL) {
+linchpin_centrality <- function(g, id = 'name', attr = 'spec', specs = NULL, type1 = NULL, type2 = NULL) {
   require(igraph)
   
   # decipher if graph is directed and/or weighted
@@ -24,9 +24,19 @@ linchpin_centrality <- function(g, id = 'name', attr = 'spec', type1 = NULL, typ
   linchpin <- c()
   counter <- 0
   for (i in deg.stats$name) {
-    # store focal specialty and calculate denom
     if (counter %% 500 == 0) {print(paste0(counter, '/', nrow(deg.stats)))}
+    
+    # store focal specialty 
     focal_spec <- deg.stats[deg.stats$name==i, attr]
+    
+    # check if focal_spec in specs and specs not null
+    if (!focal_spec %in% specs & !is.null(specs)) {
+      linchpin <- c(linchpin, NA)
+      counter <- counter + 1
+      next
+    }
+    
+    # calculate denominator
     num <- 0
     denom <- ifelse(weighted,deg.stats[deg.stats$name==i, 'strength'],deg.stats[deg.stats$name==i, 'degree'])
   
@@ -49,7 +59,7 @@ linchpin_centrality <- function(g, id = 'name', attr = 'spec', type1 = NULL, typ
   
         if (directed & weighted) { # directed and weighted case
           mat <- get.edgelist(g, names = TRUE)
-          idx <- ifelse(type == 'in', which(mat[, 1]==nm & mat[, 2] == i), which(mat[, 1]==i & mat[, 2] == nm))
+          idx <- ifelse(type == 'in', which(mat[, 1] == nm & mat[, 2] == i), which(mat[, 1] == i & mat[, 2] == nm))
           num <- num + as.numeric(E(g)$weight[idx])
   
         } else if (!directed & weighted) { # undirected and weighted case
