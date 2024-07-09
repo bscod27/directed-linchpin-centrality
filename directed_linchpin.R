@@ -1,4 +1,24 @@
 linchpin_centrality <- function(g, id = 'name', attr = 'spec', specs = NULL, type1 = NULL, type2 = NULL) {
+  
+  #' Calculate linchpin score on each node in an igraph network
+  #' 
+  #' Arguments: 
+  #'   g: An igraph network object
+  #'   id: The vertex attribute specifying the node identifier
+  #'   attr: The vertex attribute specifying the classification of each node
+  #'   specs: A vector containing the subset of classifications to consider during linchpin score calculation
+  #'   type1: The input that controls the directionality of first-order ties; takes only 'in', 'out', or 'all' as inputs
+  #'   type2: The input that controls the directionality of second-order ties; takes only 'in', 'out', or 'all' as inputs
+  #' 
+  #' Returns: 
+  #'   A vector of linchpin score values which correspond to the ordering of nodes in the inputted igraph network object
+  #'   
+  #' Examples: 
+  #'   linchpin_centrality(net, 'name', 'spec', specs = c('surgery','medonc','radonc')) # does not consider directionality
+  #'   linchpin_centrality(net, 'name', 'spec', specs = c('surgery','medonc','radonc'), type1='all', type2='in') # considers directionality of second-order ties
+  
+  
+  # load required packages
   require(igraph)
   
   # decipher if graph is directed and/or weighted
