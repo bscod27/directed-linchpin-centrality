@@ -34,7 +34,7 @@ linchpin_centrality <- function(g, id = 'name', attr = 'spec', specs = NULL, typ
   
   # store first-order degree/strength into dataframe
   deg.stats <- data.frame(
-    name=vertex_attr(g)[id], spec=vertex_attr(g)[attr],
+    name = vertex_attr(g)[id], spec = vertex_attr(g)[attr],
     degree = degree(g, mode = type1),
     strength = strength(g, mode = type1),
     row.names = NULL
