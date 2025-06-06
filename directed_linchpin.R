@@ -79,7 +79,7 @@ linchpin_centrality <- function(g, id = 'name', attr = 'spec', specs = NULL, typ
   
         if (directed & weighted) { # directed and weighted case
           mat <- get.edgelist(g, names = TRUE)
-          idx <- ifelse(type == 'in', which(mat[, 1] == nm & mat[, 2] == i), which(mat[, 1] == i & mat[, 2] == nm))
+          idx <- ifelse(type2 == 'in', which(mat[, 1] == nm & mat[, 2] == i), which(mat[, 1] == i & mat[, 2] == nm))
           num <- num + as.numeric(E(g)$weight[idx])
   
         } else if (!directed & weighted) { # undirected and weighted case
