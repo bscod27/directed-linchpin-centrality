@@ -5,6 +5,7 @@ source('directed_linchpin.R') # my function
 set.seed(123)
 
 
+
 ##### Load in data and form networks #####
 edges <- read.csv('../../03. Research Rotations/01. Moen Lab/01. Practice Data/Prov_HRR_edgelist.csv') 
 nodes <- read.csv('../../03. Research Rotations/01. Moen Lab/01. Practice Data/Prov_HRR_key.csv') %>% rename(spec = spspec)
@@ -59,12 +60,17 @@ data.frame(spec=V(g.undirected.unweighted)$spec, o1a, o1b) %>%
 
 
 # # directed, in
-in1 <- linchpin_centrality(g.directed.unweighted, type1 = 'in', type2 = 'in', specs = c('rad', 'surg'))
-in2 <- linchpin_centrality(g.directed.weighted, type1 = 'in', type2 = 'in', specs = c('rad', 'surg'))
+in1 <- linchpin_centrality(g.directed.unweighted, type = 'in', specs = c('rad', 'surg'))
+in2 <- linchpin_centrality(g.directed.weighted, type = 'in', specs = c('rad', 'surg'))
+hist(in1)
+hist(in2)
 
 # directed, out
-out1 <- linchpin_centrality(g.directed.unweighted, type1 = 'out', type2 = 'out', specs = c('rad', 'surg'))
-out2 <- linchpin_centrality(g.directed.weighted, type1 = 'out', type2 = 'out', specs = c('rad', 'surg'))
+out1 <- linchpin_centrality(g.directed.unweighted, type = 'out', specs = c('rad', 'surg'))
+out2 <- linchpin_centrality(g.directed.weighted, type = 'out', specs = c('rad', 'surg'))
+hist(out1)
+hist(out2)
+
 
 # output
 out <- nodes %>%
