@@ -44,13 +44,13 @@ o2b <- Linchpin.Centrality(
 
 # checks
 table(o1a == o1b)
-table(o2a == o2b)
+table(o2a == o2b) # NOTE: many will be different given updates on 6/24
 
 # summaries
 summary(o1a) # my code returns more NAs
 summary(o1b) # Matt's code returns more zeroes
 
-# looks like Matt's function returns zeroes for specialties NOT under consideration, which is what we don't want
+# looks like Matt's function returns zeroes for specialties NOT under consideration, which is not what we want
 data.frame(spec=V(g.undirected.unweighted)$spec, o1a, o1b) %>% 
   group_by(spec) %>% 
   summarize(
@@ -59,7 +59,7 @@ data.frame(spec=V(g.undirected.unweighted)$spec, o1a, o1b) %>%
     ) 
 
 
-# # directed, in
+# directed, in
 in1 <- linchpin_centrality(g.directed.unweighted, type = 'in', specs = c('rad', 'surg'))
 in2 <- linchpin_centrality(g.directed.weighted, type = 'in', specs = c('rad', 'surg'))
 hist(in1)
@@ -144,22 +144,3 @@ mat
 # write.csv(mat, 'corr_completed_wht.csv')
 
 
-
-# ##### Erika's question #####
-# specialties <- c('radonc', 'medonc', 'surgeon')
-# g <- erdos.renyi.game(25, p=.1, directed = FALSE, loops = FALSE)
-# V(g)$name <- 1:25
-# V(g)$spec <- sample(specialties, 25, replace = TRUE)
-# plot(g, vertex.color = factor(V(g)$spec))
-# 
-# edges <- data.frame(get.edgelist(g))
-# colnames(edges) <- c('ID_1', 'ID_2')
-# nodes <- data.frame(vertex_attr(g)) %>% rename(ID_1 = name)
-# 
-# x <- linchpin_centrality(g)
-# y <- Linchpin.Centrality(
-#     links=edges, characteristics=nodes, label_column_name='spec', char_subset='empty', weighted=FALSE
-#   )[[3]]$linkage
-# 
-# plot(g, layout = layout.fruchterman.reingold, vertex.color = factor(V(g)$spec))  
-# data.frame(node=1:25, bruno=x, matt=y) %>% head(14)
