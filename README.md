@@ -14,4 +14,4 @@ Such modifications are helpful for capturing the nuances of directed and/or weig
 
 
 ## Examples
-![](illustration.png)
+![image](illustration.png)
